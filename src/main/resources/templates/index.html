@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<title>Machine Intelligence Lab</title>
+	<link rel="stylesheet" href="../static/css/style.css" type="text/css" th:src="@{/css/style.css}">
+	<link rel="stylesheet" href="../static/css/banner.css" type="text/css" th:src="@{/css/banner.css}">
+	<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+	<script src="../static/js/admin.js" th:href="@{/js/admin.js}"></script>
+	<script src="../static/js/banner.js" th:href="@{/js/banner.js}"></script>
+	<script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.user').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                    // $(this).find('a').removeClass('active');
+                });
+            }
+        });
+	</script>
+</head>
+<body>
+	<div id="header">
+		<a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+		<ul>
+			<li class="selected">
+				<a href="/index">home</a>
+			</li>
+			<li>
+				<a href="/publications">Publications</a>
+			</li>
+			<li>
+				<a href="/projects">Projects</a>
+			</li>
+			<li>
+				<a href="/members">Members</a>
+			</li>
+			<li>
+				<a href="/contact">Contact</a>
+			</li>
+			<li class="user">
+				<a class="menu-title" href="/login">Log in</a>
+			</li>
+		</ul>
+	</div>
+	<!--<div id="section">-->
+		<div class="banner">
+			<ul>
+				<li><img src="../static/images/banner/banner1.jpg" alt=""
+						 width="960px" height="540px"></li>
+				<li><img src="../static/images/banner/banner2.jpg" alt=""
+						 width="960px" height="540px"></li>
+				<li><img src="../static/images/banner/banner3.jpg" alt=""
+						 width="960px" height="540px"></li>
+				<li><img src="../static/images/banner/banner4.jpg" alt=""
+						 width="960px" height="540px"></li>
+			</ul>
+			<div class="bannerSep">
+				<span class="active">1</span>
+				<span>2</span>
+				<span>3</span>
+				<span>4</span>
+				<!--<h1>Machine Intelligence Lab</h1>-->
+				<!--<p>-->
+					<!--This is introduction to our lab.-->
+				<!--</p>-->
+			</div>
+		</div>
+	<!--</div>-->
+	<div id="featured">
+		<div>
+			<div class="article">
+				<h2>Welcome to Machine Intelligence Lab</h2>
+				<!--<img src="../static/images/diagnostic-center.jpg" alt="">-->
+				<p>
+					Still introduction.This is the introduction of our lab.This is the introduction of our lab.
+					This is the introduction of our lab.
+				</p>
+				<p>
+					Still introduction
+				</p>
+				<p>
+					And introduction
+				</p>
+			</div>
+			<!--<ul>-->
+				<!--<li>-->
+					<!--<h3>Area 1</h3>-->
+					<!--<div>-->
+						<!--<p>-->
+							<!--Area 1 description-->
+						<!--</p>-->
+						<!--<a href="blog.html" class="more">project</a>-->
+					<!--</div>-->
+					<!--<img src="../static/images/hematology.jpg" alt="">-->
+				<!--</li>-->
+			<!--</ul>-->
+		</div>
+	</div>
+	<div id="footer">
+		<div>
+			<p>
+				<span>2023 &copy; Machine Intelligence Lab</span><a href="#" >Terms of Service</a> | <a href="#" >Privacy Policy</a>
+			</p>
+		</div>
+	</div>
+	<script th:inline="javascript">
+        var userName = [[${userName}]];
+        if (userName!=null){
+            $("a.menu-title").remove();
+            // var userNameStr = userName.toString();
+            if (userName == "admin") {
+                $("li.user").append("<a href='/admin'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+                );
+            }else {
+                $("li.user").append("<a href='/usr'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+                );
+            }
+        }
+	</script>
+</body>
+</html>

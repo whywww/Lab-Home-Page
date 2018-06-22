@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <title>Personal Home</title>
+    <link rel="stylesheet" href="../static/css/personal.css" type="text/css" th:src="@{/css/personal.css}">
+    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+    <script src="../static/js/jquery.form.min.js" type="text/javascript" th:href="@{/js/jquery.form.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" type="text/javascript" th:href="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/admin.js" type="text/javascript" th:href="@{/js/admin.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.selected').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                    // $(this).find('a').removeClass('active');
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div id="mask"></div>
+    <div id="header">
+        <a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+        <ul>
+            <li>
+                <a href="/index">home</a>
+            </li>
+            <li>
+                <a href="/publications">Publications</a>
+            </li>
+            <li>
+                <a href="/projects">Projects</a>
+            </li>
+            <li>
+                <a href="/members">members</a>
+            </li>
+            <li>
+                <a href="/contact">contact</a>
+            </li>
+            <li class="selected">
+                <a class="menu-title" href="/index">Xuening Feng</a>
+            </li>
+        </ul>
+    </div>
+    <div id="body">
+        <div id="blog">
+            <div>
+                <div id="single">
+                    <div class="figure">
+                        <a href="#" onclick="modify_img('#modify-img-box')"><img th:src="@{${user.getPhoto()}}" alt=""></a>
+                        <p>Click your photo to edit it.</p>
+                        <!--modify img pop box-->
+                        <div id="modify-img-box" class="paper-box" title="Modify Photo">
+                            <h2>Modify Photo</h2>
+                            <form method="post" enctype="multipart/form-data" id="upload">
+                                <label for="new-photo"><span>New Photo: </span>
+                                    <!--<input type="file" name="new-photo" id="new-photo">-->
+                                    <input type="file" name="pic" id="new-photo">
+                                </label>
+                                <input type="reset" style="display: none;">
+                            </form>
+                            <input type="submit" value="Submit" id="submit-photo" onclick="photo_submit('modify-img-box')">
+                            <input type="button" value="Cancel" id="cancel-photo" onclick="cancel('modify-img-box')">
+                        </div>
+                        <!--modify img pop box over-->
+                    </div>
+                    <div class="article">
+                        <h3 class="mem-name" th:text="${user.getUsrName()}+'    '+${user.getName()}">Xuening Feng&nbsp;&nbsp;&nbsp;&nbsp;冯雪宁</h3>
+                        <ul class="single">
+                            <li>
+                                <span class="property">Password:</span>
+                                <span class="mem-info" th:text="${user.getPswd()}">123456
+                                    <!--<button id="modify-pwd" class="modify" onclick="modify_pwd('#modify-pwd-box')">Modify</button>-->
+                                </span>
+                                <button id="modify-pwd" class="modify" onclick="modify_pwd('#modify-pwd-box')">Modify</button>
+                                <!--modify pwd pop box-->
+                                <div id="modify-pwd-box" class="paper-box" title="Modify Password">
+                                    <h2>Modify Password</h2>
+                                    <form method="POST" action="">
+                                        <label for="new-pwd"> <span>New Password: </span>
+                                            <input type="password" name="new-pwd" id="new-pwd">
+                                        </label>
+                                        <br>
+                                        <label for="confirm-pwd"> <span>Confirm Password: </span>
+                                            <input type="password" name="confirm-pwd" id="confirm-pwd">
+                                            
+                                            <p id="confirm-pwd.info" style="color:red;">
+                                                
+                                            </p>
+                                        </label>
+                                        <input type="reset" style="display: none;">
+                                    </form>
+                                    <!--一个失败的尝试，卒-->
+                                    <!--Valid whether two passwords match
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $("#confirm-pwd").blur(function() {
+                                                if ($("#new-pwd").val() != $("#confirm-pwd").val()) {
+                                                    alert("passwords don't match");
+                                                    //$("#confirm-pwd.info").css('display', 'block'); //dispaly alert msg
+                                                    //textp = '<p id="confirm-pwd.info" style="color:red;">Passwords do not match.</p>';
+                                                    //$("#confirm-pwd").after(textp);
+                                                    //$("confirm-pwd.info").text("Passwords do not match");
+                                                } else {
+                                                    //$("#confirm-pwd.info").css('display', 'none'); //hide alert msg
+                                                    //$("confirm-pwd.info").text(" ");
+                                                }
+                                            })
+                                        })
+                                    </script>
+                                    Valid whether two passwords match over-->
+                                    <input type="submit" value="Submit" id="submit-pwd" onclick="pwd_submit('modify-pwd-box')">
+                                    <input type="button" value="Cancel" id="cancel-pwd" onclick="cancel('modify-pwd-box')">
+                                </div>
+                                <!--modify pwd pop box over-->
+                            </li>
+                            <li>
+                                <span class="property">Title:</span>
+                                <span class="mem-info" th:text="${user.getEducation()}">Undergraduate
+                                    <!--<button id="modify-title" class="modify" onclick="modify_title('#modify-title-box')">Modify</button>-->
+                                </span>
+                                <button id="modify-title" class="modify" onclick="modify_title('#modify-title-box')">Modify</button>
+                                <!--modify title pop box-->
+                                <div id="modify-title-box" class="paper-box" title="Modify Title">
+                                    <h2>Modify Title </h2>
+                                    <form method="POST" action="">
+                                        <label for="new-title"> <span>New Title: </span>
+                                            <input type="text" name="new-title" id="new-title">
+                                        </label>
+                                        <p>Phd/Master/Undergraduate</p>
+                                        <br>
+                                        <input type="reset" style="display: none;">
+                                    </form>
+                                    <input type="submit" value="Submit" id="submit-title" onclick="title_submit('modify-title-box')">
+                                    <input type="button" value="Cancel" id="cancel-title" onclick="cancel('modify-title-box')">
+                                </div>
+                                <!--modify title pop box over-->
+                            </li>
+                            <li>
+                                <span class="property">Email:</span>
+                                <span class="mem-info" th:text="${user.getEmail()}">cindyfeng1020@foxmail.com
+                                    <!--<button id="modify-email" class="modify" onclick="modify_email('#modify-email-box')">Modify</button>-->
+                                </span>
+                                <button id="modify-email" class="modify" onclick="modify_email('#modify-email-box')">Modify</button>
+                                <!--modify email pop box-->
+                                <div id="modify-email-box" class="paper-box" title="Modify Email">
+                                    <h2>Modify Email</h2>
+                                    <form method="POST" action="">
+                                        <label for="new-email"> <span>New Email: </span>
+                                            <input type="email" name="new-email" id="new-email">
+                                        </label>
+                                        <br>
+                                        <input type="reset" style="display: none;">
+                                    </form>
+                                    <input type="submit" value="Submit" id="submit-email" onclick="email_submit('modify-email-box')">
+                                    <input type="button" value="Cancel" id="cancel-email" onclick="cancel('modify-email-box')">
+                                </div>
+                                <!--modify email pop box over-->
+                            </li>
+                            <li>
+                                <span class="property">Research Area:</span>
+                                <span class="mem-info" th:text="${user.getResearchArea()}">Natural language processing
+                                    <!--<button id="modify-area" class="modify" onclick="modify_area('#modify-area-box')">Modify</button>-->
+                                </span>
+                                <button id="modify-area" class="modify" onclick="modify_area('#modify-area-box')">Modify</button>
+                                <!--modify area pop box-->
+                                <div id="modify-area-box" class="paper-box" title="Modify Research Area">
+                                    <h2>Modify Research Area</h2>
+                                    <form method="POST" action="">
+                                        <label for="new-area"> <span>New Area: </span>
+                                            <input type="text" name="new-area" id="new-area">
+                                        </label>
+                                        <br>
+                                        <input type="reset" style="display: none;">
+                                    </form>
+                                    <input type="submit" value="Submit" id="submit-area" onclick="area_submit('modify-area-box')">
+                                    <input type="button" value="Cancel" id="cancel-area" onclick="cancel('modify-area-box')">
+                                </div>
+                                <!--modify area pop box over-->
+                            </li>
+                            <li>
+                                <span class="property">Introduction:</span>
+                                <span class="mem-info" th:text="${user.getUsrDescribe()}">A little vegetable dog
+                                    <!--<button id="modify-intro" class="modify" onclick="modify_intro('#modify-intro-box')">Modify</button>-->
+                                </span>
+                                <button id="modify-intro" class="modify" onclick="modify_intro('#modify-intro-box')">Modify</button>
+                                <!--modify intro pop box-->
+                                <div id="modify-intro-box" class="paper-box" title="Modify Your Introduction">
+                                    <h2>Modify Your Introduction</h2>
+                                    <form method="POST" action="">
+                                        <label for="new-intro"> <span>New Introduction: </span>
+                                            <!--<input type="text" name="new-intro" id="new-intro">-->
+                                            <textarea rows="10" cols="20" style="overflow-y:scroll;" id="new-intro"></textarea>
+                                        </label>
+                                        <br>
+                                        <input type="reset" style="display: none;">
+                                    </form>
+                                    <input type="submit" value="Submit" id="submit-intro" onclick="intro_submit('modify-intro-box')">
+                                    <input type="button" value="Cancel" id="cancel-intro" onclick="cancel('modify-intro-box')">
+                                </div>
+                                <!--modify intro pop box over-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="stats"></div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div>
+            <p>
+                <span>2023 &copy; Machine Intelligence Lab.</span><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        var userName = [[${userName}]];
+        $("a.menu-title").remove();
+        $("li.selected").append("<a href='/usr'>"+userName+"</a>\n"
+            +
+            "<ul class='menu-down'>\n"+
+            // "<li><a href='/logout'>"+
+            "<li><a href='#' onclick='splogout()'>"+
+            "Log out"+
+            "</a>\n"+
+            "</li>"+
+            "</ul> "
+        );
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+    <title>Paper Management</title>
+    <link rel="stylesheet" href="../static/css/style2.css" type="text/css" th:src="@{/css/style2.css}">
+    <link rel="stylesheet" href="../static/css/admin.css" type="text/css" th:src="@{/css/admin.css}">
+    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" type="text/javascript" th:href="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/admin.js" type="text/javascript" th:href="@{/js/admin.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.selected').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                });
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div id="mask"></div>
+    <div id="header">
+        <a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+        <ul>
+            <li>
+                <a href="/index">home</a>
+            </li>
+            <li>
+                <a href="/publications">Publications</a>
+            </li>
+            <li>
+                <a href="/projects">Projects</a>
+            </li>
+            <li>
+                <a href="/members">Members</a>
+            </li>
+            <li>
+                <a href="/contact">Contact</a>
+            </li>
+            <li class="selected">
+                <a class="menu-title" href="/admin">Admin</a>
+				<ul class="menu-down">
+					<li>
+                        <a href='#' onclick='splogout()'>Log out</a>
+					</li>
+				</ul>
+            </li>
+        </ul>
+    </div>
+    <div id="body">
+        <div class="sidebar">
+            <!--<h3>contact</h3>-->
+            <ul>
+                <li>
+                    <span class="address"><a href="/admin">User Management</a></span>
+                </li>
+                <li>
+                    <span class="phone"><a href="#">Paper Management</a></span>
+                </li>
+                <li>
+                    <span class="email"><a href="/admin/Projs">Project Management</a></span>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>Hello Admin</h2>
+            <div class="admin-operation">
+                <button onclick="add_paper('#add-paper-box')">Add Paper</button>
+                <button onclick="add_patent('#add-patent-box')">Add Patent</button>
+            </div>
+            <!--add paper pop box-->
+            <div id="add-paper-box" class="paper-box" title="Add Paper">
+                <h2>Add Paper</h2>
+                <form method="POST" action="">
+                    <label for="title"> <span>Title: </span>
+						<input type="text" name="paper-title" id="paper-title">
+					</label>
+                    <label for="authors"> <span>Authors: </span>
+						<input type="text" name="authors" id="authors">
+					</label>
+                    <p>For example: lihua,zhangsan,wangwu</p>
+                    <p>注：按作者顺序填写用户名，英文逗号相隔，逗号前后不要有空格</p>
+
+                    <label for="year"> <span>Year: </span>
+						<input type="text" name="paper-year" id="paper-year">
+					</label>
+                    <p>For example：2018</p>
+
+                    <label for="type"> <span>Type: </span>
+						<input type="text" name="paper-type" id="paper-type">
+					</label>
+                    <label for="published-on"> <span>Published on: </span>
+						<input type="text" name="paper-published-on" id="paper-published-on">
+					</label>
+                    <p>For example: journal/conference</p>
+
+                    <label for="published-url"> <span>Published url: </span>
+						<input type="url" name="paper-published-url" id="paper-published-url">
+					</label>
+                    <input type="reset" style="display: none;">
+                </form>
+                <input type="submit" value="Add" id="submit" onclick="paper_submit('add-paper-box')">
+                <input type="button" value="Cancel" id="cancel" onclick="cancel('add-paper-box')">
+            </div>
+            <!--add paper pop box over-->
+            <!--add patent pop box-->
+            <div id="add-patent-box" class="patent-box" title="Add Patent">
+                <h2>Add Patent</h2>
+                <form method="POST" action="">
+                    <label for="patent-title"> <span>Title: </span>
+                            <input type="text" name="patent-title" id="patent-title">
+                        </label>
+                    <label for="patent-no"> <span>Patent Number: </span>
+                            <input type="text" name="patent-no" id="patent-no">
+                        </label>
+                    <label for="patentee"> <span>Patentee: </span>
+                            <input type="text" name="patentee" id="patentee">
+                        </label>
+                    <p>注：填写专利权人用户名，逗号前后不要有空格</p>
+                    <label for="inventor"> <span>Patent Inventor: </span>
+                            <input type="text" name="inventor" id="inventor">
+                        </label>
+                    <p>注：填写专利发明人用户名，逗号前后不要有空格</p>
+                    <label for="patent-year"> <span>Year: </span>
+                            <input type="text" name="patent-year" id="patent-year">
+                        </label>
+                    <p>For example: 2018</p>
+                    <label for="region"> <span>Region: </span>
+                            <input type="text" name="region" id="region">
+                        </label>
+                    <input type="reset" style="display: none;">
+                </form>
+                <input type="submit" value="Add" id="patent-submit" onclick="patent_submit('add-patent-box')">
+                <input type="button" value="Cancel" id="patent-cancel" onclick="cancel('add-patent-box')">
+            </div>
+            <!--add papent pop box over-->
+            <h3>Paper</h3>
+            <div class="user-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th hidden>No</th>
+                            <th>Title</th>
+                            <th>Authors</th>
+                            <th>Year</th>
+                            <th>Type</th>
+                            <th>Published on</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="paper,paperStat:${papers}">
+                        <tr>
+                            <td hidden>1</td>
+                            <td th:text="${paper.getPubTitle()}">Non-Divergence of Stochastic Discrete Time Algorithms for PCA Neural Networks </td>
+                            <td th:text="${paper.getAuthorNameString()}">Jian Cheng Lv, Zhang Yi, Yunxia Li</td>
+                            <td th:text="${paper.getPubDate()}">2016</td>
+                            <td th:text="${paper.getType()}">Journal</td>
+                            <td th:text="${paper.getTypeName()}">IEEE TRANSACTIONS ON NEURAL NETWORKS AND LEARNING SYSTEMS, VOL. 26, NO. 2</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <h3>Patent</h3>
+            <div class="user-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <!--<th>No</th>-->
+                            <th>Title</th>
+                            <th>Patent Number</th>
+                            <th>Patentee</th>
+                            <th>Patent Inventor</th>
+                            <th>Date</th>
+                            <th>Region</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="patent,patentStat:${patents}">
+                        <tr>
+                            <!--<td>1</td>-->
+                            <td th:text="${patent.getPubTitle()}">patent 1</td>
+                            <td th:text="${patent.getPatentId()}">201515467389.X</td>
+                            <td th:text="${patent.getAuthorNameList().get(0)}">Sichuan Univ</td>
+                            <td th:text="${patent.getAuthorNameList().get(1)}">Jiancheng Lv</td>
+                            <td th:text="${patent.getPubDate()}">2016</td>
+                            <td th:text="${patent.getPatentRegion()}">China</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div>
+            <p>
+                <span>2023 &copy; Machine Intelligence Lab.</span><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

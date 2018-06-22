@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+    <title>Project Management</title>
+    <link rel="stylesheet" href="../static/css/style2.css" type="text/css" th:src="@{/css/style2.css}">
+    <link rel="stylesheet" href="../static/css/admin.css" type="text/css" th:src="@{/css/admin.css}">
+    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" type="text/javascript" th:href="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/admin.js" type="text/javascript" th:href="@{/js/admin.js}"></script>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.selected').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                    // $(this).find('a').removeClass('active');
+                });
+            }
+        });
+    </script>
+</head>
+
+<body onload="">
+    <div id="header">
+        <a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+        <ul>
+            <li>
+                <a href="/index">home</a>
+            </li>
+            <li>
+                <a href="/publications">Publications</a>
+            </li>
+            <li>
+                <a href="/projects">Projects</a>
+            </li>
+            <li>
+                <a href="/members">members</a>
+            </li>
+            <li>
+                <a href="/contact">contact</a>
+            </li>
+            <li class="selected">
+                <a class="menu-title" href="/admin">Admin</a>
+				<ul class="menu-down">
+					<li>
+                        <a href='#' onclick='splogout()'>Log out</a>
+					</li>
+				</ul>
+            </li>
+        </ul>
+    </div>
+    <div id="body">
+        <div class="sidebar">
+            <!--<h3>contact</h3>-->
+            <ul>
+                <li>
+                    <span class="address"><a href="/admin">User Management</a></span>
+                </li>
+                <li>
+                    <span class="phone"><a href="/admin/Pubs">Paper Management</a></span>
+                </li>
+                <li>
+                    <span class="email"><a href="#">Project Management</a></span>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+
+            <h2>Hello Admin</h2>
+            <h3>Add Project</h3>
+            <div class="admin-operation">
+                <div class="add-user-form">
+                    <form method="post" enctype="multipart/form-data" id="proj-upload">
+                        <label for="pro-name"> <span style="width:130px;">Project Name</span>
+                            <input type="text" name="add-pro-name" id="add-pro-name">
+                        </label>
+                        <label for="pro-link"> <span style="width:130px;">Project Link</span>
+                            <input type="url" name="add-pro-link" id="add-pro-link">
+                        </label>
+
+                        <label for="pro-pic"> <span style="width:130px;">Project Picture</span>
+                            <input type="file" name="add-pro-pic" id="add-pro-pic">
+                            <!--<input type="button" onclick="browerfile.click">-->
+                        </label>
+
+                        <label for="pro-desc"> <span style="width:130px;">Project Description</span>
+                            <input type="text" name="add-pro-desc" id="add-pro-desc">
+                        </label>
+                    </form>
+                    <input type="submit" value="Add" id="submit" style="margin-left:347px;" onclick="pro_submit()">
+                </div>
+            </div>
+            <h3>Project List</h3>
+            <div class="user-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <!--<th>No</th>-->
+                            <th>Project Name</th>
+                            <th>Project Link</th>
+                            <th>Project Description</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="proj,projStat:${projects}">
+                        <!--<td>1</td>-->
+                        <tr>
+                            <td th:text="${proj.getProjName()}">Project 1 </td>
+                            <td th:text="${proj.getProjHref()}">http://www.baidu.com</td>
+                            <td th:text="${proj.getProjDescribe()}">This is the first project of our lab.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div>
+            <p>
+                <span>2023 &copy; Machine Intelligence Lab.</span><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

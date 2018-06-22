@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<title>Members</title>
+	<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+	<link rel="stylesheet" href="../static/css/style.css" type="text/css" th:src="@{/css/style.css}">
+	<script src="../static/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+	<script src="../static/js/admin.js" th:href="@{/js/admin.js}"></script>
+	<script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.user').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                    // $(this).find('a').removeClass('active');
+                });
+            }
+        });
+	</script>
+</head>
+<body>
+	<div id="header">
+		<a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+		<ul>
+			<li>
+				<a href="/index">home</a>
+			</li>
+			<li>
+				<a href="/publications">Publications</a>
+			</li>
+			<li>
+				<a href="/projects">Projects</a>
+			</li>
+			<li class="selected">
+				<a href="/members">Members</a>
+			</li>
+			<li>
+				<a href="/contact">contact</a>
+			</li>
+			<li class="user">
+				<a class="menu-title" href="/login">Log in</a>
+			</li>
+		</ul>
+	</div>
+	<div id="body">
+			<div id="blog">
+				<div>
+					<div>
+						<div class="figure">
+							<a href="#"><img src="../static/images/professor lv.png" alt=""></a>
+						</div>
+						<div class="article">
+							<h3>Professor Jiancheng Lv</h3>
+							<p>
+								Brief introduction of professor Lv.Brief introduction of professor Lv.Brief introduction of professor Lv.Brief introduction of professor Lv.
+							</p>
+							<a href="" class="more" >personal page of Prof Lv(if any)</a>
+						</div>
+					</div>
+					<div class="stats"></div>
+				</div>
+			</div>
+		<div class="content">
+			<div class="section">
+				<!--博士列表-->
+				<div class="type" >Doctor</div>
+				<br>
+				<div>
+					<div th:each="doctor, doctorStat:${doctors}">
+						<ul>
+							<li>
+								<span th:text="${doctor.getName()} +' '+${doctor.getEducation()}">Member 1</span>
+								<a th:href="@{'/single?id='+${doctor.getUsrName()}}" target="_blank">
+									<!--<img src="../static/images/lab-mem1.png" alt="">-->
+									<img th:src="@{${doctor.getPhoto()}}" alt="">
+								</a>
+							</li>
+						</ul>
+					</div>
+				<!--<div th:each="user, userStat:${usrList}">-->
+					<!--<ul>-->
+						<!--<li>-->
+							<!--<span th:text="${user.getName()} +' '+${user.getEducation()}">Member 1</span>-->
+							<!--<a th:href="@{'/single?id='+${user.getUsrName()}}" target="_blank">-->
+								<!--&lt;!&ndash;<img src="../static/images/lab-mem1.png" alt="">&ndash;&gt;-->
+								<!--<img th:src="@{${user.getPhoto()}}" alt="">-->
+							<!--</a>-->
+						<!--</li>-->
+					<!--</ul>-->
+				<!--</div>-->
+				</div>
+				<br>
+
+				<!--硕士列表-->
+				<div class="type">Master</div>
+				<br>
+				<div>
+					<div th:each="master, masterStat:${masters}">
+						<ul>
+							<li>
+								<span th:text="${master.getName()} +' '+${master.getEducation()}">Member 1</span>
+								<a th:href="@{'/single?id='+${master.getUsrName()}}" target="_blank">
+									<!--<img src="../static/images/lab-mem1.png" alt="">-->
+									<img th:src="@{${master.getPhoto()}}" alt="">
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<br>
+
+				<!--本科生列表-->
+				<div class="type">Undergraduate</div>
+				<br>
+				<div>
+					<div th:each="under, underStat:${undergraduates}">
+						<ul>
+							<li>
+								<span th:text="${under.getName()} +' '+${under.getEducation()}">Member 1</span>
+								<a th:href="@{'/single?id='+${under.getUsrName()}}" target="_blank">
+									<!--<img src="../static/images/lab-mem1.png" alt="">-->
+									<img th:src="@{${under.getPhoto()}}" alt="">
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		<div>
+			<p>
+				<span>2023 &copy; Machine Intelligence Lab</span><a href="#" >Terms of Service</a> | <a href="#" >Privacy Policy</a>
+			</p>
+		</div>
+	</div>
+	<script th:inline="javascript">
+        var userName = [[${userName}]];
+        if (userName!=null){
+            $("a.menu-title").remove();
+            // var userNameStr = userName.toString();
+            if (userName == "admin") {
+                $("li.user").append("<a href='/admin'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+				);
+			}else {
+                $("li.user").append("<a href='/usr'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+				);
+			}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" href="../static/css/style2.css" type="text/css" th:src="@{/css/style2.css}">
+    <link rel="stylesheet" href="../static/css/admin.css" type="text/css" th:src="@{/css/admin.css}">
+    <script src="../static/js/jquery-1.11.1.min.js" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}"></script>
+    <script src="../static/js/admin.js" type="text/javascript" th:href="@{/js/admin.js}"></script>
+</head>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        var username = [[${userName}]];
+        if (username!=null){
+            $('li.selected').hover(function () {
+                $(this).find('ul.menu-down').animate({
+                    opacity:1.0,
+                    height:'toggle'
+                },500);
+            },function () {
+                $(this).find('ul.menu-down').animate({
+                    opacity:0,
+                    height:'toggle'
+                },500);
+                // $(this).find('a').removeClass('active');
+            });
+        }
+    });
+</script>
+<body>
+    <div id="header">
+        <a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+        <ul>
+            <li>
+                <a href="/index">home</a>
+            </li>
+            <li>
+                <a href="/publications">Publications</a>
+            </li>
+            <li>
+                <a href="/projects">Projects</a>
+            </li>
+            <li>
+                <a href="/members">members</a>
+            </li>
+            <li>
+                <a href="/contact">contact</a>
+            </li>
+            <li class="selected">
+                <a class="menu-title" href="/login">login</a>
+            </li>
+        </ul>
+    </div>
+    <div id="body">
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <span class="address"><a href="#">User Management</a></span>
+                </li>
+                <li>
+                    <span class="phone"><a href="/admin/Pubs">Paper Management</a></span>
+                </li>
+                <li>
+                    <span class="email"><a href="/admin/Projs">Project Management</a></span>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <h2>Hello Admin</h2>
+            <h3>Add User</h3>
+            <div class="admin-operation">
+                <div class="add-user-form">
+                    <form method="POST" action="">
+                        <label for="Name"> <span>User Name</span>
+							<input type="text" name="add-name" id="add-name">
+                        </label>
+                        <label for="RealName"> <span>Real Name</span>
+							<input type="text" name="add-real-name" id="add-real-name">
+                        </label>
+                        <label for="Password"> <span>Password</span>
+							<input type="password" name="add-psw" id="add-password">
+						</label>
+                    </form>
+                    <input type="submit" value="Add" id="submit" onclick="submit()">
+                </div>
+            </div>
+            <h3>User List</h3>
+            <div class="user-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Login Name</th>
+                            <th>Real Name</th>
+                            <th>Password</th>
+                        </tr>
+                    </thead>
+                    <tbody th:each="user, userStat:${userList}">
+                        <tr>
+                            <td th:text="${user.getUsrName()}">haoyu wei-1</td>
+                            <td th:text="${user.getName()}">haoyu wei</td>
+                            <td th:text="${user.getPswd()}">123456</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div>
+            <p>
+                <span>2023 &copy; Machine Intelligence Lab.</span><a href="#">Terms of Service</a> | <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        var userName = [[${userName}]];
+        $("a.menu-title").remove();
+        $("li.selected").append("<a href='/admin'>"+userName+"</a>\n"+
+        "<ul class='menu-down'>\n"+
+            // "<li><a href='/logout'>"+
+            "<li><a href='#' onclick='logout()'>"+
+            "Log out"+
+            "</a>\n"+
+            "</li>"+
+            "</ul> ");
+    </script>
+</body>
+</html>

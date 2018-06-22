@@ -1,0 +1,72 @@
+#body div div div.add-user-form input#submit {
+    border: none;
+    margin-left: 325px;
+    margin-top: 20px;
+    padding: 5px;
+    width: 100px;
+    height: 30px;
+}
+
+#body div div.admin-operation {
+    margin-bottom: 10px;
+    border: violet;
+}
+
+
+/*以上无效*/
+
+#body div.content div.user-list table {
+    width: 650px;
+}
+
+#body div.content div.user-list table tbody tr td {
+    border-style: solid solid none none;
+    border-width: 1px 1px 0 0;
+    border-color: orange;
+    text-align: center;
+    padding: 0;
+}
+
+
+/*paper management pop box*/
+
+#add-paper-box,
+#add-patent-box,
+#modify-pwd-box {
+    text-align: center;
+    position: absolute;
+    z-index: 10003;
+    /*width: 320px;
+    height: 320px;*/
+    background: #f3eac6;
+    display: none;
+}
+
+#mask {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    filter: alpha(opacity=60);
+    background-color: rgb(50, 50, 61);
+    z-index: 10002;
+    left: 0px;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    display: none;
+}
+
+div#body div.content #add-paper-box.paper-box form,
+div#body div.content #add-patent-box.patent-box form,
+div#body div.content #modify-pwd-box form {
+    margin: 20px 40px 20px 20px;
+}
+
+div#body div.content #add-paper-box.paper-box input#cancel,
+div#body div.content #add-patent-box.patent-box input#patent-cancel,
+div#body div.content #modify-pwd-box input#cancel-pwd {
+    margin-bottom: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+}

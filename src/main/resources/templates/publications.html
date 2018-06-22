@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<title>Publications</title>
+
+	<link rel="stylesheet" href="../static/css/style.css" type="text/css" th:src="@{/css/style.css}">
+	<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:href="@{/js/jquery-1.11.1.min.js}"></script>
+	<script src="../static/js/bootstrap.min.js" type="text/javascript" th:href="@{/js/bootstrap.min.js}"></script>
+	<script src="../static/js/onload.js" type="text/javascript" th:href="@{/js/onload.js}"></script>
+	<script src="../static/js/admin.js" type="text/javascript" th:href="@{/js/admin.js}"></script>
+	<script th:inline="javascript">
+        $(document).ready(function () {
+            var username = [[${userName}]];
+            if (username!=null){
+                $('li.user').hover(function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:1.0,
+                        height:'toggle'
+                    },500);
+                },function () {
+                    $(this).find('ul.menu-down').animate({
+                        opacity:0,
+                        height:'toggle'
+                    },500);
+                    // $(this).find('a').removeClass('active');
+                });
+            }
+        });
+	</script>
+</head>
+<body>
+	<div id="header">
+		<a href="/index" class="logo"><img src="../static/images/logo.png" alt=""></a>
+		<ul>
+			<li>
+				<a href="/index">home</a>
+			</li>
+			<li class="selected">
+				<a href="/publications">Publications</a>
+			</li>
+			<li>
+				<a href="/projects">Projects</a>
+			</li>
+			<li>
+				<a href="/members">Members</a>
+			</li>
+			<li>
+				<a href="/contact">Contact</a>
+			</li>
+			<li class="user">
+				<a class="menu-title" href="/login">Log in</a>
+			</li>
+		</ul>
+	</div>
+	<div id="body">
+		<div class="content" th:each="patent, patentStat:${patents}">
+			<!--<h2>2017</h2>-->
+			<h3 th:text="${patent.getAuthorNameString()}">作者</h3>
+			<p th:text="${patent.getPubTitle()} + ', ' + ${patent.getType()} + ', ' + ${patent.getPatentRegion()} + ', ' + ${patent.getPubDate()}">
+				标题，期刊 年份
+			</p>
+		</div>
+		<div class="content" th:each="paper, paperStat:${papers}">
+			<!--<h2>2017</h2>-->
+			<h3 th:text="${paper.getAuthorNameString()}">作者</h3>
+			<p th:text="${paper.getPubTitle()} + ', ' + ${paper.getType()} + ', ' + ${paper.getPatentRegion()} + ', ' + ${paper.getPubDate()}">
+				标题，期刊 年份
+			</p>
+		</div>
+
+	</div>
+	<div id="footer">
+		<div>
+			<p>
+				<span>2023 &copy; Machine Intelligence Lab</span><a href="#" >Terms of Service</a> | <a href="#" >Privacy Policy</a>
+			</p>
+		</div>
+	</div>
+	<script th:inline="javascript">
+        var userName = [[${userName}]];
+        if (userName!=null){
+            $("a.menu-title").remove();
+            // var userNameStr = userName.toString();
+            if (userName == "admin") {
+                $("li.user").append("<a href='/admin'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+                );
+            }else {
+                $("li.user").append("<a href='/usr'>"+userName+"</a>\n"
+                    +
+                    "<ul class='menu-down'>\n"+
+                    "<li><a href='#' onclick='logout()'>"+
+                    "Log out"+
+                    "</a>\n"+
+                    "</li>"+
+                    "</ul> "
+                );
+            }
+        }
+	</script>
+</body>
+</html>
