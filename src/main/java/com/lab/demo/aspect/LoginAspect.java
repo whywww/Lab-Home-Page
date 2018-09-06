@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import com.lab.demo.repository.UsrRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 public class LoginAspect {
+    @Autowired
+    private UsrRepository usrRepository;
 
     @Pointcut("within(com.lab.demo.controller.AdminController)")
     public void AdminPointCut(){
@@ -41,7 +45,7 @@ public class LoginAspect {
         if(usrName == null){
 //            System.out.println("还没有登录！");
             return "redirect:/login";
-        }else if(usrName.toString().equals("admin")){
+        }else if(usrRepository.findByUsrName(usrName.toString()).getAuthority() == 0){ //usrName.toString().equals("admin")
             System.out.println("无权限访问！！！");
             return "redirect:/index";
         }
@@ -64,25 +68,10 @@ public class LoginAspect {
         if (usrName == null) {
             System.out.println("还没有登录！");
             return "redirect:/login";
-        } else if(!usrName.toString().equals("admin")){
+        } else if(usrRepository.findByUsrName(usrName.toString()).getAuthority() == 1){
             System.out.println("无权限访问！！！");
             return "redirect:/index"; //???????????????
         }
         return joinPoint.proceed();
     }
-
-//    @Around("LoginPointCut()")
-//    public Object afterLogin(ProceedingJoinPoint joinPoint) throws Throwable{
-//        System.out.println("## before login");
-//        Object result = null;
-//        try {
-//            result = joinPoint.proceed();
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//        }finally {
-//            result = "redirect:/index";
-//        }
-//        return result;
-//    }
-
 }
